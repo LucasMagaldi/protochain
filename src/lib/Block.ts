@@ -9,9 +9,7 @@ export type BlockTypes = {
 }
 
 /*
-
     Initiated at: 1678560283956
-
 */
 
 export default class Block {
@@ -27,8 +25,15 @@ export default class Block {
         return SHA256(index + data + timestamp + previousHash).toString();
     }
 
+    checkChanges(change: string) {
+      const dataContent = this.block.data;
+      this.block.data = change;
+      this.block.timestamp = new Date().getTime();
+      if (dataContent != this.block.data)
+        this.block.hash = this.getHash(this.block.index, this.block.data, this.block.timestamp, this.block.previousHash)
+    }
+
     isValid(previousHash: string, previousIndex: number): string {
-        console.log(this.block);
         if (this.block.index === 0) {
           if(!this.block.data) return "Empty content. The transaction should contain records";
           if (this.block.timestamp <= 1678560283956) return "Broken Block, invalid chain";

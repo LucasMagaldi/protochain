@@ -25,6 +25,17 @@ describe("Blockchain", () => {
             data: `Transaction ${blockchain.blocks.length}`
         });
         expect(newBlock).toEqual(true);
+        const validatedChain = blockchain.isValid();
+        expect(validatedChain).toEqual(true);
+    });
+    it("Shouldn't allow editing Block after create it", () => {
+        const block = blockchain.blocks[1];
+        console.log(block);
+        block.checkChanges("update");
+        console.log(block);
+        const validatedChain = blockchain.isValid();
+
+        expect(validatedChain).toEqual(false);
     });
 
 });
